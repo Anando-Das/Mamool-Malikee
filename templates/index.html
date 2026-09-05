@@ -1,0 +1,656 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mamool Malikee | Premium Arabian Fragrance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{% static "/css/style.css" %}">
+    <link rel="stylesheet" href=" {% static "/css/responsive.css" %} ">
+    <link rel=" stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <img src=" {% static "/images/logo.png" %} " alt=" Mamool Malikee">
+            </a>
+
+            <nav class="nav-desktop">
+                <a href=" index.html " class="active">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">Our Story</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+
+            <div class="header-actions">
+                <a href="#" aria-label="Search"><i class="fas fa-search"></i></a>
+
+                {% if user.is_authenticated %}
+                <div class="user-profile-nav" id="desktopUserNav">
+                    <div class="user-dropdown" id="desktopUserMenu">
+                        <span class="greeting">{{ user.first_name }} {{ user.last_name }} <i class="fas fa-caret-down"
+                                style="font-size: 0.8em; margin-left: 4px;"></i></span>
+                        <div class="dropdown-content">
+                            <span class="dropdown-header"
+                                style="display:block; padding: 0.5rem 1.5rem; font-size: 0.85rem; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.25rem;">{{ user.first_name }} {{ user.last_name }}</span>
+
+                            {% url "logout" as url %}
+                            <a href="{% url "logout" %}">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" aria-label="Account"><i class="far fa-user"></i></a>
+                {% endif %}
+                <a href="cart.html" aria-label="Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">2</span>
+                </a>
+                <div class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="overlay" id="overlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html">Our Story</a>
+        <a href="contact.html ">Contact</a>
+        {% if user.is_authenticated %}
+        <div class="mobile-user-section">
+            <div class="mobile-user-menu">
+                <span class="greeting">{{ user.first_name }} {{ user.last_name }}</span>
+                <a href="/logout/?next=/" class="logout-link">Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+        <a href="cart.html">Cart (2)</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-visual">
+            <img src=" {% static "/images/logo.png" %} " alt=" Mamool Malikee">
+        </div>
+        <div class="hero-content">
+            <p class="hero-subtitle">Heritage of Pure Arabian Fragrance</p>
+            <h1>
+                Mamool Malikee
+                <span>Since Sylhet</span>
+            </h1>
+            <p class="hero-description">
+                Discover the art of traditional Arabian perfumery. Handcrafted oud,
+                premium bakhoor, and natural musk oils sourced from the finest ingredients.
+            </p>
+            <div class="hero-cta">
+                <a href="shop.html" class="btn btn-primary">Shop Collection</a>
+                <a href="about.html" class="btn btn-outline">Our Story</a>
+            </div>
+        </div>
+        <div class="hero-scroll" onclick="document.getElementById('brand-intro').scrollIntoView({behavior:'smooth'})">
+            Scroll
+        </div>
+    </section>
+
+    <!-- Brand Intro -->
+    <section class="brand-intro section-padding" id="brand-intro">
+        <div class="container">
+            <div class="brand-intro-inner">
+                <div class="brand-intro-image reveal">
+                    <img src=" {% static " https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?w=800&q=80" %} "
+                        alt=" Arabian Perfume Tradition">
+                </div>
+                <div class="brand-intro-content reveal">
+                    <h2>A Legacy of Scent</h2>
+                    <p class="lead">"Fragrance is the invisible crown of the soul."</p>
+                    <p>
+                        Born in the heart of Sylhet, Bangladesh, Mamool Malikee carries forward
+                        centuries of Arabian perfumery tradition. We believe that true luxury lies
+                        in authenticity — in the pure agarwood from the forests of Southeast Asia,
+                        in the hand-ground bakhoor prepared by master craftsmen.
+                    </p>
+                    <p>
+                        Every drop of our OUD Malikee oil, every grain of our mamool incense,
+                        is a testament to our commitment to quality that transcends time.
+                    </p>
+                    <div class="signature">— Mamool Malikee</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fragrance Categories -->
+    <section class="categories section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Fragrance Families</h2>
+                <p>Explore our collections crafted around the six pillars of Arabian perfumery</p>
+            </div>
+            <div class="categories-grid">
+                <div class="category-card reveal">
+                    <img src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&q=80" alt="Oud">
+                    <div class="category-card-content">
+                        <h3>Oud</h3>
+                        <span>12 Products</span>
+                    </div>
+                </div>
+                <div class="category-card reveal">
+                    <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&q=80" alt="Floral">
+                    <div class="category-card-content">
+                        <h3>Floral</h3>
+                        <span>8 Products</span>
+                    </div>
+                </div>
+                <div class="category-card reveal">
+                    <img src="https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=400&q=80" alt="Woody">
+                    <div class="category-card-content">
+                        <h3>Woody</h3>
+                        <span>10 Products</span>
+                    </div>
+                </div>
+                <div class="category-card reveal">
+                    <img src="https://images.unsplash.com/photo-1557170334-a9632e77c6e4?w=400&q=80" alt="Fresh">
+                    <div class="category-card-content">
+                        <h3>Fresh</h3>
+                        <span>6 Products</span>
+                    </div>
+                </div>
+                <div class="category-card reveal">
+                    <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=400&q=80" alt="Sweet">
+                    <div class="category-card-content">
+                        <h3>Sweet</h3>
+                        <span>7 Products</span>
+                    </div>
+                </div>
+                <div class="category-card reveal">
+                    <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=400&q=80" alt="Musk">
+                    <div class="category-card-content">
+                        <h3>Musk</h3>
+                        <span>9 Products</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Sellers -->
+    <section class="products-section section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Best Sellers</h2>
+                <p>Our most cherished fragrances, loved by connoisseurs across Bangladesh</p>
+            </div>
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=500&q=80"
+                            alt="OUD Malikee 6ml">
+                        <span class="product-badge">Bestseller</span>
+                        <button class="product-wishlist" aria-label="Add to wishlist"><i
+                                class="far fa-heart"></i></button>
+                        <div class="product-quick-add">
+                            <button onclick="addToCart('OUD Malikee 6ml Original')">Add to Bag</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="product.html">OUD Malikee 6ml Original</a></h3>
+                        <p class="product-notes">Pure Agarwood · Deep · Resinous</p>
+                        <div class="product-rating">
+                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i></span>
+                            <span class="rating-count">(48)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">৳4,500</span>
+                            <span class="price-original">৳5,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1547887538-047f814bfb64?w=500&q=80"
+                            alt="Mamool Malikee Premium">
+                        <button class="product-wishlist" aria-label="Add to wishlist"><i
+                                class="far fa-heart"></i></button>
+                        <div class="product-quick-add">
+                            <button onclick="addToCart('Mamool Malikee 20g Premium')">Add to Bag</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="product.html">Mamool Malikee 20g Premium</a></h3>
+                        <p class="product-notes">Arabian Incense · Smoky · Rich</p>
+                        <div class="product-rating">
+                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star-half-alt"></i></span>
+                            <span class="rating-count">(36)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">৳599</span>
+                            <span class="price-original">৳1,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
+                            alt="Bakhoor Premium">
+                        <span class="product-badge">New</span>
+                        <button class="product-wishlist" aria-label="Add to wishlist"><i
+                                class="far fa-heart"></i></button>
+                        <div class="product-quick-add">
+                            <button onclick="addToCart('Bakhoor 100g Premium')">Add to Bag</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="product.html">Bakhoor 100g Premium Quality</a></h3>
+                        <p class="product-notes">Wood Chips · Sweet · Long-lasting</p>
+                        <div class="product-rating">
+                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i></span>
+                            <span class="rating-count">(24)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">৳15,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=500&q=80"
+                            alt="OUD Malikee 12ml">
+                        <button class="product-wishlist" aria-label="Add to wishlist"><i
+                                class="far fa-heart"></i></button>
+                        <div class="product-quick-add">
+                            <button onclick="addToCart('OUD Malikee 12ml Original')">Add to Bag</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="product.html">OUD Malikee 12ml Original</a></h3>
+                        <p class="product-notes">Concentrated Oil · Intense · Luxurious</p>
+                        <div class="product-rating">
+                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i></span>
+                            <span class="rating-count">(62)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">৳10,000</span>
+                            <span class="price-original">৳10,500</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="shop.html" class="btn btn-outline">View All Products</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Natural Ingredients -->
+    <section class="ingredients section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Pure Ingredients</h2>
+                <p>We source only the finest natural materials for our fragrances</p>
+            </div>
+            <div class="ingredients-grid">
+                <div class="ingredient-card reveal">
+                    <div class="ingredient-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <h3>Agarwood</h3>
+                    <p>Wild-harvested from ancient forests, our oud carries the soul of the tree.</p>
+                </div>
+                <div class="ingredient-card reveal">
+                    <div class="ingredient-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Amber</h3>
+                    <p>Warm, resinous, and deeply comforting — the heart of Arabian perfumery.</p>
+                </div>
+                <div class="ingredient-card reveal">
+                    <div class="ingredient-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3>Natural Musk</h3>
+                    <p>Ethically sourced musk that adds depth and longevity to every blend.</p>
+                </div>
+                <div class="ingredient-card reveal">
+                    <div class="ingredient-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3>Damask Rose</h3>
+                    <p>Hand-picked at dawn for the most intoxicating floral notes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fragrance Notes -->
+    <section class="fragrance-notes section-padding">
+        <div class="container">
+            <div class="notes-container">
+                <div class="notes-visual reveal">
+                    <div class="note-pyramid">
+                        <div class="pyramid-level top">
+                            <div class="pyramid-bar"><span>Saffron · Bergamot</span></div>
+                            <span class="pyramid-label">Top Notes</span>
+                        </div>
+                        <div class="pyramid-level heart">
+                            <div class="pyramid-bar"><span>Rose · Oud · Jasmine</span></div>
+                            <span class="pyramid-label">Heart Notes</span>
+                        </div>
+                        <div class="pyramid-level base">
+                            <div class="pyramid-bar"><span>Amber · Musk · Sandalwood</span></div>
+                            <span class="pyramid-label">Base Notes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="notes-content reveal">
+                    <h2>The Art of Layering</h2>
+                    <h3>Understanding Fragrance Notes</h3>
+                    <p>
+                        Every Mamool Malikee fragrance is composed like a symphony — with top, heart,
+                        and base notes that unfold over time, revealing new dimensions with every hour.
+                    </p>
+                    <ul class="note-list">
+                        <li><span>Top</span> The first impression — light, fresh, evaporating within minutes</li>
+                        <li><span>Heart</span> The soul of the fragrance — emerging after 15 minutes, lasting hours</li>
+                        <li><span>Base</span> The foundation — deep, rich notes that linger on skin and fabric</li>
+                    </ul>
+                    <a href="shop.html" class="btn btn-outline" style="margin-top: 1.5rem;">Explore Fragrances</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section class="products-section section-padding" style="background: var(--black);">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>New Arrivals</h2>
+                <p>Our latest creations, now available for the discerning nose</p>
+            </div>
+            <div class="products-grid">
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=500&q=80"
+                            alt="Mamool Special">
+                        <span class="product-badge">New</span>
+                        <button class="product-wishlist"><i class="far fa-heart"></i></button>
+                        <div class="product-quick-add">
+                            <button onclick="addToCart('Mamool Malikee Special')">Add to Bag</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="product.html">Mamool Malikee Special</a></h3>
+                        <p class="product-notes">Limited Blend · Woody · Spicy</p>
+                        <div class="product-rating">
+                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i></span>
+                            <span class="rating-count">(12)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">৳599</span>
+                            <span class="price-original">৳1,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1547887538-047f814bfb64?w=500&q=80" alt="OUD 3ml">
+                        <span class="product-badge">New</span>
+                        <button class="product-wishlist"><i class="far fa-heart"></i></button>
+                        <div class="product-quick-add">
+                            <button onclick="addToCart('OUD Malikee 3ml')">Add to Bag</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="product.html">OUD Malikee 3ml Original</a></h3>
+                        <p class="product-notes">Travel Size · Pure · Concentrated</p>
+                        <div class="product-rating">
+                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="far fa-star"></i></span>
+                            <span class="rating-count">(8)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">৳2,650</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80"
+                            alt="Mamool Bakhoor">
+                        <button class="product-wishlist"><i class="far fa-heart"></i></button>
+                        <div class="product-quick-add">
+                            <button onclick="addToCart('Mamool Bakhoor 20g')">Add to Bag</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="product.html">Mamool Bakhoor 20g</a></h3>
+                        <p class="product-notes">Home Fragrance · Sweet · Smoky</p>
+                        <div class="product-rating">
+                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star-half-alt"></i></span>
+                            <span class="rating-count">(19)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">৳700</span>
+                            <span class="price-original">৳1,200</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card reveal">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=500&q=80"
+                            alt="OUD 2ml">
+                        <span class="product-badge sold-out">Sold Out</span>
+                        <button class="product-wishlist"><i class="far fa-heart"></i></button>
+                    </div>
+                    <div class="product-info">
+                        <h3><a href="product.html">2ml Original Khati Agarwood</a></h3>
+                        <p class="product-notes">Rare · Pure · Collector's Item</p>
+                        <div class="product-rating">
+                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                    class="fas fa-star"></i></span>
+                            <span class="rating-count">(31)</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="price-current">৳1,800</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="reviews section-padding">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Clientele Voices</h2>
+                <p>What our patrons say about their Mamool Malikee experience</p>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card reveal">
+                    <div class="review-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="review-text">
+                        "The OUD Malikee 6ml is unlike anything I've ever worn. It evolves throughout
+                        the day — starting bright and ending in this deep, warm embrace. Worth every taka."
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">A</div>
+                        <div class="review-author-info">
+                            <h4>Arif Rahman</h4>
+                            <span>Dhaka, Bangladesh</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card reveal">
+                    <div class="review-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="review-text">
+                        "I use the bakhoor for my home and guests always ask what that beautiful
+                        scent is. It fills the room without being overwhelming. Premium quality indeed."
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">S</div>
+                        <div class="review-author-info">
+                            <h4>Samina Khatun</h4>
+                            <span>Sylhet, Bangladesh</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card reveal">
+                    <div class="review-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="review-text">
+                        "Fast delivery, beautiful packaging, and the fragrance lasts all day.
+                        Mamool Malikee has become my signature scent. Highly recommended."
+                    </p>
+                    <div class="review-author">
+                        <div class="review-avatar">M</div>
+                        <div class="review-author-info">
+                            <h4>Mohammad Imran</h4>
+                            <span>Chittagong, Bangladesh</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter section-padding">
+        <div class="container">
+            <div class="newsletter-inner">
+                <div class="newsletter-content reveal">
+                    <h2>Join the Inner Circle</h2>
+                    <p>Subscribe for exclusive access to new releases, limited editions, and
+                        private sales reserved for our most valued patrons.</p>
+                </div>
+                <div class="newsletter-form reveal">
+                    <input type="email" placeholder="Your email address">
+                    <button class="btn btn-primary">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="images/logo.png" alt="Mamool Malikee">
+                    <p>Premium Arabian fragrances crafted with tradition,
+                        served with modern elegance from Sylhet, Bangladesh.</p>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-phone"></i> 01777972227</p>
+                        <p><i class="fas fa-envelope"></i> midhatabduzzahir@gmail.com</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Sylhet, Bangladesh</p>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="shop.html">All Products</a></li>
+                        <li><a href="shop.html">OUD Collection</a></li>
+                        <li><a href="shop.html">Mamool Incense</a></li>
+                        <li><a href="shop.html">Bakhoor</a></li>
+                        <li><a href="shop.html">New Arrivals</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Shipping & Delivery</a></li>
+                        <li><a href="#">Returns & Refunds</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="#">Craftsmanship</a></li>
+                        <li><a href="#">Ingredients</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2024 Mamool Malikee. All rights reserved.</p>
+                <div class="payment-methods">
+                    <span style="color: var(--gray); font-size: 0.75rem; margin-right: 0.5rem;">We Accept:</span>
+                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">bKash</span>
+                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">Nagad</span>
+                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">SSLCommerz</span>
+                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">VISA</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

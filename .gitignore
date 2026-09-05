@@ -1,0 +1,55 @@
+# Python/Django
+*.py[cod]
+*$py.class
+__pycache__/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Database files
+*.sqlite3
+db.sqlite3
+
+# Environment and secrets
+.env
+.env.local
+.secret
+secrets.json
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.spyderproject
+.ropeproject
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Django local uploads/media
+media/
+public/media/
+
+# Static files collected by collectstatic
+staticfiles/
+static_root/
+
+# Logs
+*.log
+
+# Caches
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
