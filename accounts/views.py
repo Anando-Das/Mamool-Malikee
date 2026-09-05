@@ -7,6 +7,16 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login,logout
 
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from rest_framework import status
+from django.contrib.auth import authenticate
+
+from .serializers import LoginSerializer
+from drf_spectacular.utils import extend_schema
+
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
@@ -99,3 +109,38 @@ def login_page(request):
 def logout_user(request):
     logout(request)
     return redirect('/')
+
+@extend_schema(request=LoginSerializer)
+
+
+class LoginAPIView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data['email']
+        password = serializer.validated_data['password']
+
+        user = authenticate(
+            request,
+            username=email,
+            password=password
+        )
+
+        if user is None:
+            return Response(
+                {"detail": "Incorrect email or password."},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        return Response(
+            {
+                "message": "Login successful.",
+                "first_name": user.first_name,
+                "last_name": user.last_name,
+                "email": user.email,
+            },
+            status=status.HTTP_200_OK
+        )

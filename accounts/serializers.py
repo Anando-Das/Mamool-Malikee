@@ -5,6 +5,9 @@ from rest_framework import serializers
 from .models import User
 
 
+
+
+
 class RegisterSerializer(serializers.ModelSerializer):
     confirm_password = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True)
@@ -44,3 +47,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+    
+
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
