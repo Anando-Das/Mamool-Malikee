@@ -90,7 +90,10 @@
                 {% url "registers" as url %}
 
                 <p>Don't have an account? <a href=" {% url "registers" %} ">Create Account</a></p>
-                <p style="margin-top:1rem;"><a href="index.html" style="color:var(--gray);"><i
+
+                {% url "home" as url %}
+
+                <p style="margin-top:1rem;"><a href=" {% url "home" %} " style="color:var(--gray);"><i
                             class="fas fa-arrow-left"></i> Back to Home</a></p>
             </div>
         </div>

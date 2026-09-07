@@ -5,4 +5,3 @@ def homepage(request):
     return render(request, "index.html")
 
 
-

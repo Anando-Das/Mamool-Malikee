@@ -26,8 +26,14 @@
             </a>
 
             <nav class="nav-desktop">
-                <a href=" index.html " class="active">Home</a>
-                <a href="shop.html">Shop</a>
+
+                {% url "home" as url %}
+
+                <a href=" {% url "home" %} " class="active">Home</a>
+
+                {% url "shop" as url %}
+
+                <a href=" {% url "shop" %} ">Shop</a>
                 <a href="about.html">Our Story</a>
                 <a href="contact.html">Contact</a>
             </nav>

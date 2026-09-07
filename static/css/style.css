@@ -1179,6 +1179,36 @@ img {
   font-size: 0.8rem;
 }
 
+.stars .star {
+  display: inline-block;
+  line-height: 1;
+}
+
+.stars .full {
+  color: var(--gold-primary);
+}
+
+.stars .empty {
+  color: var(--gray-dark);
+}
+
+.stars .half {
+  color: transparent;
+  background: linear-gradient(
+    90deg,
+    var(--gold-primary) 50%,
+    var(--gray-dark) 50%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.filter-list a.active {
+  color: var(--gold-primary);
+  font-weight: 600;
+}
+
+
 .rating-count {
   font-size: 0.75rem;
   color: var(--gray);
@@ -2345,4 +2375,4 @@ img {
   font-weight: 500;
   display: inline-block;
   margin-top: -0.5rem;
-}
+}
