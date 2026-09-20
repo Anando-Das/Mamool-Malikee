@@ -58,7 +58,8 @@
                 {% else %}
                 <a href="{% url 'login' %}" aria-label="Account"><i class="far fa-user"></i></a>
                 {% endif %}
-                <a href="cart.html" aria-label="Cart">
+                {% url "cart" as cart %}
+                <a href="{% url "cart" %}" aria-label="Cart">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">2</span>
                 </a>

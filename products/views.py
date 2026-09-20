@@ -1,14 +1,30 @@
 from django.shortcuts import render
-from rest_framework import generics
+from django.shortcuts import render, get_object_or_404
+from .models import Product,ProductVariant,ShippingZone,Coupon
+from .serializers import ProductSerializer,ProductVariantSerializer,ShippingZoneSerializer,CouponSerializer
+from rest_framework import viewsets
+from decimal import Decimal, InvalidOperation
+from django.contrib.auth.decorators import login_required
 
-from .models import Product
-from .serializers import ProductSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
-
-class ProductListCreateAPIView(generics.ListCreateAPIView):
+class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.filter(is_active=True)
     serializer_class = ProductSerializer
-
+    
+class ProductVariantViewSet(viewsets.ModelViewSet):
+    queryset = ProductVariant.objects.filter(is_active=True)
+    serializer_class = ProductVariantSerializer
+    
+class ShippingZoneViewSet(viewsets.ModelViewSet):
+    queryset = ShippingZone.objects.filter(is_active=True)
+    serializer_class = ShippingZoneSerializer
+    
+class CouponViewSet(viewsets.ModelViewSet):
+    queryset = Coupon.objects.filter(is_active=True)
+    serializer_class = CouponSerializer
 
 def build_filter_url(request, **new_params):
     params = request.GET.copy()
@@ -69,6 +85,12 @@ def product_page(request):
         product.full_stars = int(rating)
         product.half_star = 1 if rating - int(rating) >= 0.5 else 0
         product.empty_stars = 5 - product.full_stars - product.half_star
+        product.default_variant = ProductVariant.objects.filter(
+            product=product,
+            is_active=True
+        ).order_by("price").first()
+        
+        
 
     return render(request, "product.html", {
         "products": products,
@@ -83,4 +105,126 @@ def product_page(request):
         "fresh_fragrance_url": build_filter_url(request, fragrance="Fresh"),
         "sweet_fragrance_url": build_filter_url(request, fragrance="Sweet"),
         "musk_fragrance_url": build_filter_url(request, fragrance="Musk"),
+    })
+    
+def product_detail(request, product_id):
+    product = get_object_or_404(
+        Product,
+        id=product_id,
+        is_active=True
+    )
+
+    rating = float(product.rating)
+
+    product.full_stars = int(rating)
+    product.half_star = 1 if rating - int(rating) >= 0.5 else 0
+    product.empty_stars = 5 - product.full_stars - product.half_star
+
+    related_product = Product.objects.filter(
+        is_active = True
+    ).exclude(id=product.id).order_by("-created_at")[:4]
+    
+    variants = ProductVariant.objects.filter(
+        product=product,
+        is_active=True
+    ).order_by("price")
+    
+    selected_variant = variants.filter(
+        price=product.price
+    ).first()
+    
+    return render(request, "product_details.html", 
+                  
+        {"product": product,
+         "related_products": related_product,
+         "variants": variants,
+        }
+        
+    )
+
+
+class CouponApplyAPIView(APIView):
+
+    def get(self, request):
+        code = request.GET.get("code", "").strip().upper()
+        subtotal_value = request.GET.get("subtotal", "0")
+
+        if not code:
+            return Response(
+                {"detail": "Coupon code is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            subtotal = Decimal(subtotal_value)
+        except (InvalidOperation, ValueError, TypeError):
+            return Response(
+                {"detail": "Invalid subtotal."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if subtotal < 0:
+            return Response(
+                {"detail": "Invalid subtotal."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        coupon = Coupon.objects.filter(
+            code__iexact=code,
+            is_active=True
+        ).first()
+
+        if not coupon:
+            return Response(
+                {"detail": "Invalid or inactive coupon."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        if subtotal < coupon.minimum_order_amount:
+            return Response(
+                {
+                    "detail": (
+                        f"Minimum order amount is "
+                        f"৳{coupon.minimum_order_amount}"
+                    )
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if coupon.discount_type == "percentage":
+            discount = (
+                subtotal * coupon.discount_value / Decimal("100")
+            )
+
+            if (
+                coupon.max_discount_amount is not None
+                and discount > coupon.max_discount_amount
+            ):
+                discount = coupon.max_discount_amount
+
+        else:
+            discount = coupon.discount_value
+
+        if discount > subtotal:
+            discount = subtotal
+
+        return Response({
+            "code": coupon.code,
+            "discount_type": coupon.discount_type,
+            "discount_value": coupon.discount_value,
+            "discount_amount": discount,
+            "subtotal": subtotal,
+        })
+
+    
+
+
+@login_required(login_url='login')
+def cart_page(request):
+    shipping_zones = ShippingZone.objects.filter(
+        is_active=True
+    )
+
+    return render(request, "cart.html", {
+        "shipping_zones": shipping_zones,
     })

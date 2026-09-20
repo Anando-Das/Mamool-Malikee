@@ -60,11 +60,15 @@
                     <i class="fas fa-search"></i>
                 </a>
 
-                <a href="login.html">
+
+                {% url "login" as url %}
+
+                <a href="{% url "login" %}">
                     <i class="far fa-user"></i>
                 </a>
 
-                <a href="cart.html">
+                {% url "cart" as url %}
+                <a href="{% url "cart" %}">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">2</span>
                 </a>
@@ -103,7 +107,9 @@
             Contact
         </a>
 
-        <a href="login.html">
+        {% url "login" as url %}
+
+        <a href=" {% url "login" %} ">
             Login
         </a>
 
@@ -504,9 +510,31 @@
 
                         <div class="product-quick-add">
 
-                            <button onclick="addToCart('{{ product.name }}')">
-                                Add to Bag
-                            </button>
+                           
+
+                            {% if product.default_variant %}
+                                <button
+                                    onclick="addToCartFromShop(this)"
+                                    data-authenticated="{{ user.is_authenticated|yesno:'true,false' }}"
+                                    data-login-url="{% url 'login' %}"
+                                    data-cart-url="{% url 'cart' %}"
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.name }}"
+                                    data-image="{{ product.image.url }}"
+                                    data-variant-id="{{ product.default_variant.id }}"
+                                    data-size="{{ product.default_variant.size }}"
+                                    data-price="{{ product.default_variant.price|floatformat:0 }}"
+                                >
+                                    Add to Bag
+                                </button>
+                            {%else %} 
+                                <button disabled>
+                                    Not Available
+                                </button>
+                            {% endif %}
+
+
+
 
                         </div>
 
@@ -520,7 +548,7 @@
 
                         <h3>
 
-                            <a href="product_details.html?id={{ product.id }}">
+                            <a href="{% url 'product_detail' product.id %}">
                                 {{ product.name }}
                             </a>
 

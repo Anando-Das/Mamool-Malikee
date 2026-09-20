@@ -1,99 +1,125 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Shopping Bag | Mamool Malikee</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static '/css/style.css' %}" />
+    <link rel="stylesheet" href=" {% static '/css/responsive.css' %} " />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  </head>
+  <body>
     <header class="header" id="header">
-        <div class="header-inner">
-            <a href="index.html" class="logo"><img src="images/logo.png" alt="Mamool Malikee"></a>
-            <nav class="nav-desktop">
-                <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a>
-            </nav>
-            <div class="header-actions">
-                <a href="#"><i class="fas fa-search"></i></a>
-                <a href="login.html"><i class="far fa-user"></i></a>
-                <a href="cart.html"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
-                <div class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></div>
-            </div>
+      <div class="header-inner">
+        {% url 'home' as url %}
+        <a href=" {% url 'home' %} " class="logo"><img src="{% static '/images/logo.png' %}" alt="Mamool Malikee" /></a>
+        <nav class="nav-desktop">
+          {% url 'home' as url %}
+          <a href=" {% url 'home' %} ">Home</a>
+          {% url 'shop' as url %}
+          <a href="{% url 'shop' %}">Shop</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <a href="#"><i class="fas fa-search"></i></a>
+          {% url "login" as url %}
+          <a href=" {% url "login" %} "><i class="far fa-user"></i></a>
+          {% url "cart" as cart %}
+          <a href="{% url "cart" %}"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
+          <div class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span><span></span><span></span>
+          </div>
         </div>
+      </div>
     </header>
     <div class="overlay" id="overlay"></div>
     <div class="mobile-menu" id="mobileMenu">
-        <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">Our Story</a>
-        <a href="contact.html">Contact</a><a href="login.html">Login</a><a href="cart.html">Cart (2)</a>
+      {% url 'home' as url %}
+      <a href="{% url "home" %}">Home</a>
+      {% url 'shop' as url %}
+      <a href="{% url "shop" %}">Shop</a>
+      <a href="about.html">Our Story</a>
+      <a href="contact.html">Contact</a>
+      {% url "login" as url %}
+      <a href="{% url "login" %}">Login</a>
+      <a href="cart.html">Cart (2)</a>
     </div>
 
     <section class="cart-page">
-        <div class="container">
-            <h2 style="margin-bottom:2rem; font-size:2rem;">Your Shopping Bag</h2>
-            <div class="cart-layout">
-                <div class="cart-items">
-                    <div class="cart-item">
-                        <div class="cart-item-image"><img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=200&q=80" alt="OUD 6ml"></div>
-                        <div class="cart-item-details">
-                            <h3>OUD Malikee 6ml Original</h3>
-                            <p>Pure Agarwood · Deep · Resinous</p>
-                            <div class="quantity-selector" style="border-color:rgba(255,255,255,0.1); width:fit-content;">
-                                <button onclick="this.nextElementSibling.value=Math.max(1,parseInt(this.nextElementSibling.value)-1)">-</button>
-                                <input type="text" value="1" style="width:40px;" readonly>
-                                <button onclick="this.previousElementSibling.value=parseInt(this.previousElementSibling.value)+1">+</button>
-                            </div>
-                        </div>
-                        <div class="cart-item-price">৳4,500</div>
-                        <button class="cart-item-remove" onclick="this.closest('.cart-item').remove()"><i class="fas fa-times"></i></button>
-                    </div>
-                    <div class="cart-item">
-                        <div class="cart-item-image"><img src="https://images.unsplash.com/photo-1547887538-047f814bfb64?w=200&q=80" alt="Mamool Premium"></div>
-                        <div class="cart-item-details">
-                            <h3>Mamool Malikee 20g Premium</h3>
-                            <p>Arabian Incense · Smoky · Rich</p>
-                            <div class="quantity-selector" style="border-color:rgba(255,255,255,0.1); width:fit-content;">
-                                <button onclick="this.nextElementSibling.value=Math.max(1,parseInt(this.nextElementSibling.value)-1)">-</button>
-                                <input type="text" value="2" style="width:40px;" readonly>
-                                <button onclick="this.previousElementSibling.value=parseInt(this.previousElementSibling.value)+1">+</button>
-                            </div>
-                        </div>
-                        <div class="cart-item-price">৳1,198</div>
-                        <button class="cart-item-remove" onclick="this.closest('.cart-item').remove()"><i class="fas fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="cart-summary">
-                    <h3>Order Summary</h3>
-                    <div class="summary-row"><span>Subtotal</span><span>৳5,698</span></div>
-                    <div class="summary-row"><span>Shipping</span><span>Calculated at checkout</span></div>
-                    <div class="summary-row"><span>Tax</span><span>Included</span></div>
-                    <div class="coupon-input">
-                        <input type="text" placeholder="Enter coupon code">
-                        <button class="btn btn-small btn-dark">Apply</button>
-                    </div>
-                    <div class="summary-row total"><span>Total</span><span>৳5,698</span></div>
-                    <a href="checkout.html" class="btn btn-primary" style="width:100%; margin-top:1rem;">Proceed to Checkout</a>
-                    <a href="shop.html" class="btn btn-outline" style="width:100%; margin-top:0.5rem;">Continue Shopping</a>
-                </div>
+      <div class="container">
+        <h2 style="margin-bottom:2rem; font-size:2rem;">Your Shopping Bag</h2>
+        <div class="cart-layout">
+          <div class="cart-items" id="cartItems">
+            <p id="emptyCartMessage">Your shopping bag is empty.</p>
+          </div>
+
+          <div class="cart-summary">
+            <h3>Order Summary</h3>
+
+            <div class="shipping-location" style="margin: 1rem 0;">
+              <label for="shippingZone" style="display:block; margin-bottom:0.5rem;">Delivery Location</label>
+
+              <select id="shippingZone" style="width:100%; padding:0.8rem;">
+                <option value="">Select your location</option>
+
+                {% for zone in shipping_zones %}
+                  <option value="{{ zone.code }}" data-charge="{{ zone.charge }}">{{ zone.get_code_display }}</option>
+                {% endfor %}
+              </select>
             </div>
+
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="cartSubtotal">৳0</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span id="cartShipping">৳0</span>
+            </div>
+            {% comment %} <div class="summary-row">
+              <span>Tax</span><span>Included</span>
+            </div> {% endcomment %}
+
+            <div class="coupon-input">
+              <input type="text" id="couponInput" placeholder="Enter coupon code" />
+
+              <button class="btn btn-small btn-dark" onclick="applyCoupon()">Apply</button>
+            </div>
+
+            <p id="couponMessage" style="margin-top:0.5rem; font-size:0.85rem;"></p>
+
+            <div class="summary-row" id="discountRow" style="display:none;">
+              <span>Discount</span>
+              <span id="cartDiscount">-৳0</span>
+            </div>
+
+            <div class="summary-row total">
+              <span>Total</span>
+              <span id="cartTotal">৳0</span>
+            </div>
+            <a href="checkout.html" class="btn btn-primary" style="width:100%; margin-top:1rem;">Proceed to Checkout</a>
+            {% url "shop" as url %}
+            <a href=" {% url "shop" %} " class="btn btn-outline" style="width:100%; margin-top:0.5rem;">Continue Shopping</a>
+          </div>
         </div>
+      </div>
     </section>
 
     <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom" style="border-top:none;">
-                <p>© 2024 Mamool Malikee. All rights reserved.</p>
-                <div class="payment-methods">
-                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">bKash</span>
-                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">Nagad</span>
-                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">SSLCommerz</span>
-                </div>
-            </div>
+      <div class="container">
+        <div class="footer-bottom" style="border-top:none;">
+          <p>© 2024 Mamool Malikee. All rights reserved.</p>
+          <div class="payment-methods">
+            <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">bKash</span>
+            <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">Nagad</span>
+            <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">SSLCommerz</span>
+          </div>
         </div>
+      </div>
     </footer>
-    <script src="js/main.js"></script>
-</body>
+    <script src="{% static '/js/main.js' %}"></script>
+  </body>
 </html>

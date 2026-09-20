@@ -2,262 +2,376 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OUD Malikee 6ml Original | Mamool Malikee</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href=" {% static "/css/style.css" %} ">
-    <link rel="stylesheet" href=" {% static "/css/responsive.css" %} ">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ product.name }} | Mamool Malikee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href=" {% static '/css/style.css' %} " />
+    <link rel="stylesheet" href=" {% static '/css/responsive.css' %} " />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  </head>
+  <body>
     <header class="header" id="header">
-        <div class="header-inner">
-            <a href="index.html" class="logo">
-                <img src=" {% static "images/logo.png" %} " alt="Mamool Malikee">
-            </a>
-            <nav class="nav-desktop">
-                <a href="index.html">Home</a>
-                <a href="shop.html">Shop</a>
-                <a href="about.html">Our Story</a>
-                <a href="contact.html">Contact</a>
-            </nav>
-            <div class="header-actions">
-                <a href="#"><i class="fas fa-search"></i></a>
-                <a href="login.html"><i class="far fa-user"></i></a>
-                <a href="cart.html"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
-                <div class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></div>
-            </div>
+      <div class="header-inner">
+        <a href="index.html" class="logo"><img src=" {% static 'images/logo.png' %} " alt="Mamool Malikee" /></a>
+        <nav class="nav-desktop">
+          {% url "home" as home %}
+          <a href="{% url "home" %}">Home</a>
+          {% url "shop" as shop %}
+          <a href="{% url "shop" %}">Shop</a>
+          <a href="about.html">Our Story</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <a href="#"><i class="fas fa-search"></i></a>
+          {% url 'login' as url %}
+          <a href="{% url 'login' %}"><i class="far fa-user"></i></a>
+          {% url 'cart' as url %}
+          <a href="{% url 'cart' %}"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
+          <div class="mobile-menu-btn" id="mobileMenuBtn">
+            <span></span><span></span><span></span>
+          </div>
         </div>
+      </div>
     </header>
     <div class="overlay" id="overlay"></div>
     <div class="mobile-menu" id="mobileMenu">
-        <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">Our Story</a>
-        <a href="contact.html">Contact</a><a href="login.html">Login</a><a href="cart.html">Cart (2)</a>
+      <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">Our Story</a>
+      <a href="contact.html">Contact</a><a href="login.html">Login</a><a href="cart.html">Cart (2)</a>
     </div>
 
     <section class="product-detail">
-        <div class="container">
-            <div class="product-detail-grid">
-                <div class="product-gallery">
-                    <div class="gallery-main">
-                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=800&q=80" alt="OUD Malikee 6ml" id="mainImage">
-                    </div>
-                    <div class="gallery-thumbs">
-                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=200&q=80" class="active" onclick="changeImage(this)">
-                        <img src="https://images.unsplash.com/photo-1547887538-047f814bfb64?w=200&q=80" onclick="changeImage(this)">
-                        <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=200&q=80" onclick="changeImage(this)">
-                        <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=200&q=80" onclick="changeImage(this)">
-                    </div>
-                </div>
+      <div class="container">
+        <div class="product-detail-grid">
+          <div class="product-gallery">
+            <div class="gallery-main">
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" id="mainImage" />
+            </div>
+            <div class="gallery-thumbs">
+              <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=200&q=80" class="active" onclick="changeImage(this)" />
+              <img src="https://images.unsplash.com/photo-1547887538-047f814bfb64?w=200&q=80" onclick="changeImage(this)" />
+              <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=200&q=80" onclick="changeImage(this)" />
+              <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=200&q=80" onclick="changeImage(this)" />
+            </div>
+          </div>
 
-                <div class="product-detail-info">
-                    <div class="product-detail-meta">
-                        <span class="stock-status in-stock"><i class="fas fa-check-circle"></i> In Stock</span>
-                        <div class="product-rating">
-                            <span class="stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></span>
-                            <span class="rating-count">48 Reviews</span>
-                        </div>
-                    </div>
+          <div class="product-detail-info">
+            <div class="product-detail-meta">
+              {% if product.badge == 'sold_out' %}
+                <span class="stock-status sold-out"><i class="fas fa-times-circle"></i> Sold Out</span>
+              {% else %}
+                <span class="stock-status in-stock"><i class="fas fa-check-circle"></i> In Stock</span>
+              {% endif %}
 
-                    <h1>OUD Malikee 6ml Original</h1>
-                    <div class="product-detail-price">
-                        ৳4,500
-                        <span class="original">৳5,000</span>
-                    </div>
+              <div class="product-rating">
+                <span class="stars">
+                  {% for i in "12345" %}
+                    {% if forloop.counter <= product.full_stars %}
+                      <i class="fas fa-star"></i>
+                    {% elif forloop.counter == product.full_stars|add:1 and product.half_star %}
+                      <i class="fas fa-star-half-alt"></i>
+                    {% else %}
+                      <i class="far fa-star"></i>
+                    {% endif %}
+                  {% endfor %}
+                </span>
 
-                    <div class="product-description">
-                        <p>A masterpiece of Arabian perfumery, our signature OUD Malikee is distilled from 
-                        pure agarwood resin sourced from the ancient forests of Southeast Asia. This 6ml 
-                        attar oil offers an intense, long-lasting fragrance that evolves beautifully on the skin.</p>
-                    </div>
-
-                    <div class="fragrance-pyramid-detail">
-                        <h3>Fragrance Notes</h3>
-                        <div class="notes-row">
-                            <div class="note-box">
-                                <h4>Top</h4>
-                                <p>Saffron, Bergamot, Pink Pepper</p>
-                            </div>
-                            <div class="note-box">
-                                <h4>Heart</h4>
-                                <p>Rose, Oud, Jasmine, Geranium</p>
-                            </div>
-                            <div class="note-box">
-                                <h4>Base</h4>
-                                <p>Amber, Musk, Sandalwood, Vanilla</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="size-selector">
-                        <h4>Select Size</h4>
-                        <div class="size-options">
-                            <button class="size-option">2ml</button>
-                            <button class="size-option active">6ml</button>
-                            <button class="size-option">12ml</button>
-                        </div>
-                    </div>
-
-                    <div class="product-actions">
-                        <div class="quantity-selector">
-                            <button onclick="updateQty(-1)">-</button>
-                            <input type="text" value="1" id="qtyInput" readonly>
-                            <button onclick="updateQty(1)">+</button>
-                        </div>
-                        <button class="btn btn-primary" onclick="addToCart('OUD Malikee 6ml Original')">
-                            <i class="fas fa-shopping-bag"></i> Add to Bag
-                        </button>
-                        <button class="btn btn-outline" onclick="buyNow()">
-                            Buy Now
-                        </button>
-                    </div>
-
-                    <div class="product-meta-detail">
-                        <div class="meta-row"><span>SKU</span><span>MM-OU-006</span></div>
-                        <div class="meta-row"><span>Category</span><span>OUD Malikee</span></div>
-                        <div class="meta-row"><span>Fragrance</span><span>Woody, Oud, Resinous</span></div>
-                        <div class="meta-row"><span>Longevity</span><span>8-12 Hours</span></div>
-                        <div class="meta-row"><span>Ingredients</span><span>100% Natural Agarwood Oil</span></div>
-                    </div>
-                </div>
+                <span class="rating-count">{{ product.review_count }} Reviews</span>
+              </div>
             </div>
 
-            <div class="product-tabs">
-                <div class="tab-nav">
-                    <button class="active" onclick="showTab('desc')">Description</button>
-                    <button onclick="showTab('ingredients')">Ingredients</button>
-                    <button onclick="showTab('reviews')">Reviews (48)</button>
-                </div>
-                <div class="tab-content active" id="desc">
-                    <p>OUD Malikee represents the pinnacle of our craft. Each batch is carefully distilled 
-                    using traditional methods passed down through generations of perfumers. The agarwood 
-                    used in this attar is sustainably sourced from mature trees, ensuring both ethical 
-                    practices and the highest quality oil.</p>
-                    <p style="margin-top:1rem">Unlike synthetic fragrances, our oud oil develops uniquely 
-                    on each wearer's skin, creating a signature scent that is truly personal. The 6ml 
-                    bottle provides approximately 180 applications, making it an exceptional value for 
-                    a fragrance of this caliber.</p>
-                </div>
-                <div class="tab-content" id="ingredients">
-                    <p><strong>100% Pure Agarwood (Aquilaria malaccensis) Oil</strong></p>
-                    <p style="margin-top:1rem">Our OUD Malikee contains no alcohol, no synthetic additives, 
-                    and no diluting agents. The oil is extracted through hydro-distillation of infected 
-                    agarwood heartwood, a process that yields the most precious and aromatic compounds 
-                    of the tree.</p>
-                </div>
-                <div class="tab-content" id="reviews">
-                    <div class="reviews-grid" style="margin-top:2rem;">
-                        <div class="review-card">
-                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="review-text">"Absolutely stunning fragrance. The depth and complexity 
-                            of this oud is remarkable. It lasts all day and gets better with time."</p>
-                            <div class="review-author">
-                                <div class="review-avatar">R</div>
-                                <div class="review-author-info"><h4>Rashed Khan</h4><span>Verified Buyer</span></div>
-                            </div>
-                        </div>
-                        <div class="review-card">
-                            <div class="review-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <p class="review-text">"This is my third purchase. The quality is consistent 
-                            and the packaging makes it perfect for gifting. Highly recommend."</p>
-                            <div class="review-author">
-                                <div class="review-avatar">N</div>
-                                <div class="review-author-info"><h4>Nadia Islam</h4><span>Verified Buyer</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <h1>{{ product.name }}</h1>
+
+            <div class="product-detail-price">
+              <span id="currentPrice">
+                {% if selected_variant %}
+                  ৳{{ selected_variant.price|floatformat:0 }}
+                {% else %}
+                  ৳{{ product.price|floatformat:0 }}
+                {% endif %}
+              </span>
+
+              <span id="originalPrice" class="original">
+                {% if selected_variant %}
+                  {% if selected_variant.original_price %}
+                    ৳{{ selected_variant.original_price|floatformat:0 }}
+                  {% endif %}
+                {% else %}
+                  {% if product.original_price %}
+                    ৳{{ product.original_price|floatformat:0 }}
+                  {% endif %}
+                {% endif %}
+              </span>
             </div>
+
+            <div class="product-description">
+              {% if product.description %}
+                <p>{{ product.description }}</p>
+              {% else %}
+                <p>{{ product.notes }}</p>
+              {% endif %}
+            </div>
+
+            <div class="fragrance-pyramid-detail">
+              <h3>Fragrance Notes</h3>
+              <div class="notes-row">
+                <div class="note-box">
+                  <h4>Top</h4>
+                  <p>{{ product.top_notes }}</p>
+                </div>
+
+                <div class="note-box">
+                  <h4>Heart</h4>
+                  <p>{{ product.heart_notes }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="size-selector">
+              <h4>Select Size</h4>
+
+              <div class="size-options">
+                {% for variant in variants %}
+                  <button class="size-option {% if selected_variant.id == variant.id %}active{% endif %}" data-variant-id="{{ variant.id }}" data-size="{{ variant.size }}" data-price="{{ variant.price|floatformat:0 }}" data-original-price="{{ variant.original_price|floatformat:0 }}">{{ variant.size }}</button>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="product-actions">
+              <div class="quantity-selector">
+                <button onclick="updateQty(-1)">-</button>
+                <input type="text" value="1" id="qtyInput" readonly />
+                <button onclick="updateQty(1)">+</button>
+              </div>
+              <button class="btn btn-primary" id="addToBagBtn" data-authenticated="{{ user.is_authenticated|yesno:'true,false' }}" data-login-url="{% url 'login' %}" data-product-id="{{ product.id }}" data-product-name="{{ product.name }}" data-image="{{ product.image.url }}" onclick="addToCart(this)"><i class="fas fa-shopping-bag"></i> Add to Bag</button>
+              <button class="btn btn-outline" onclick="buyNow()">Buy Now</button>
+            </div>
+
+            <div class="product-meta-detail">
+              <div class="meta-row">
+                <span>SKU</span>
+                <span>{{ product.sku }}</span>
+              </div>
+
+              <div class="meta-row">
+                <span>Category</span>
+                <span>{{ product.category }}</span>
+              </div>
+
+              <div class="meta-row">
+                <span>Fragrance</span>
+                <span>{{ product.fragrance_family }}</span>
+              </div>
+              <div class="meta-row">
+                <span>Longevity</span>
+                <span>{{ product.longevity }}</span>
+              </div>
+              <div class="meta-row">
+                <span>Ingredients</span>
+                <span>{{ product.ingredients }}</span>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="product-tabs">
+          <div class="tab-nav">
+            <button class="active" onclick="showTab('desc')">Description</button>
+            <button onclick="showTab('ingredients')">Ingredients</button>
+            <button onclick="showTab('reviews')">{{ product.review_count }}</button>
+          </div>
+
+          <div class="tab-content active" id="desc">
+            {% if product.description %}
+              <p>{{ product.description }}</p>
+            {% else %}
+              <p>{{ product.notes }}</p>
+            {% endif %}
+
+            <p style="margin-top:1rem">Unlike synthetic fragrances, our oud oil develops uniquely on each wearer's skin, creating a signature scent that is truly personal.</p>
+          </div>
+
+          <div class="tab-content" id="ingredients">
+            <p>
+              <strong>{{ product.ingredients }}l</strong>
+            </p>
+            <p style="margin-top:1rem">Our OUD Malikee contains no alcohol, no synthetic additives, and no diluting agents. The oil is extracted through hydro-distillation of infected agarwood heartwood, a process that yields the most precious and aromatic compounds of the tree.</p>
+          </div>
+          <div class="tab-content" id="reviews">
+            <div class="reviews-grid" style="margin-top:2rem;">
+              <div class="review-card">
+                <div class="review-stars">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="review-text">"Absolutely stunning fragrance. The depth and complexity of this oud is remarkable. It lasts all day and gets better with time."</p>
+                <div class="review-author">
+                  <div class="review-avatar">R</div>
+                  <div class="review-author-info">
+                    <h4>Rashed Khan</h4><span>Verified Buyer</span>
+                  </div>
+                </div>
+              </div>
+              <div class="review-card">
+                <div class="review-stars">
+                  <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+                <p class="review-text">"This is my third purchase. The quality is consistent and the packaging makes it perfect for gifting. Highly recommend."</p>
+                <div class="review-author">
+                  <div class="review-avatar">N</div>
+                  <div class="review-author-info">
+                    <h4>Nadia Islam</h4><span>Verified Buyer</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="products-section section-padding" style="background:var(--black-light);">
-        <div class="container">
-            <div class="section-header">
-                <h2>You May Also Like</h2>
-            </div>
-            <div class="products-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?w=500&q=80" alt="OUD 12ml">
-                        <button class="product-wishlist"><i class="far fa-heart"></i></button>
-                        <div class="product-quick-add"><button>Add to Bag</button></div>
-                    </div>
-                    <div class="product-info">
-                        <h3><a href="product.html">OUD Malikee 12ml</a></h3>
-                        <p class="product-notes">Concentrated · Intense · Luxurious</p>
-                        <div class="product-price"><span class="price-current">৳10,000</span></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1547887538-047f814bfb64?w=500&q=80" alt="Mamool Premium">
-                        <button class="product-wishlist"><i class="far fa-heart"></i></button>
-                        <div class="product-quick-add"><button>Add to Bag</button></div>
-                    </div>
-                    <div class="product-info">
-                        <h3><a href="product.html">Mamool Malikee 20g Premium</a></h3>
-                        <p class="product-notes">Arabian Incense · Smoky · Rich</p>
-                        <div class="product-price"><span class="price-current">৳599</span></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?w=500&q=80" alt="Bakhoor">
-                        <button class="product-wishlist"><i class="far fa-heart"></i></button>
-                        <div class="product-quick-add"><button>Add to Bag</button></div>
-                    </div>
-                    <div class="product-info">
-                        <h3><a href="product.html">Bakhoor 100g Premium</a></h3>
-                        <p class="product-notes">Wood Chips · Sweet · Long-lasting</p>
-                        <div class="product-price"><span class="price-current">৳15,000</span></div>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=500&q=80" alt="OUD 3ml">
-                        <button class="product-wishlist"><i class="far fa-heart"></i></button>
-                        <div class="product-quick-add"><button>Add to Bag</button></div>
-                    </div>
-                    <div class="product-info">
-                        <h3><a href="product.html">OUD Malikee 3ml</a></h3>
-                        <p class="product-notes">Travel Size · Pure · Concentrated</p>
-                        <div class="product-price"><span class="price-current">৳2,650</span></div>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>You May Also Like</h2>
         </div>
+        <div class="products-grid">
+          {% for related_product in related_products %}
+            <div class="product-card">
+              <div class="product-image">
+                {% if related_product.image %}
+                  <img src="{{ related_product.image.url }}" alt="{{ related_product.name }}" />
+                {% endif %}
+                <button class="product-wishlist"><i class="far fa-heart"></i></button>
+                <div class="product-quick-add">
+                  <button>Add to Bag</button>
+                </div>
+              </div>
+              <div class="product-info">
+                <h3><a href="{% url 'product_detail' related_product.id %}">{{ related_product.name }}</a></h3>
+                <p class="product-notes">{{ related_product.notes }}</p>
+                <div class="product-price">
+                  <span class="price-current">৳{{ related_product.price|floatformat:0 }}</span>
+
+                  {% if related_product.original_price %}
+                    <span class="price-original">৳{{ related_product.original_price|floatformat:0 }}</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     </section>
 
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <img src="images/logo.png" alt="Mamool Malikee">
-                    <p>Premium Arabian fragrances crafted with tradition.</p>
-                    <div class="footer-contact">
-                        <p><i class="fas fa-phone"></i> 01777972227</p>
-                        <p><i class="fas fa-envelope"></i> midhatabduzzahir@gmail.com</p>
-                        <p><i class="fas fa-map-marker-alt"></i> Sylhet, Bangladesh</p>
-                    </div>
-                </div>
-                <div class="footer-column"><h4>Shop</h4><ul><li><a href="shop.html">All Products</a></li><li><a href="shop.html">OUD Collection</a></li><li><a href="shop.html">Mamool Incense</a></li><li><a href="shop.html">Bakhoor</a></li></ul></div>
-                <div class="footer-column"><h4>Support</h4><ul><li><a href="contact.html">Contact Us</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">FAQ</a></li></ul></div>
-                <div class="footer-column"><h4>Company</h4><ul><li><a href="about.html">Our Story</a></li><li><a href="#">Craftsmanship</a></li><li><a href="#">Blog</a></li></ul></div>
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img src="{% static '/images/logo.png' %}" alt="Mamool Malikee" />
+            <p>Premium Arabian fragrances crafted with tradition.</p>
+            <div class="footer-contact">
+              <p>
+                <i class="fas fa-phone"></i> 01777972227
+              </p>
+              <p>
+                <i class="fas fa-envelope"></i> midhatabduzzahir@gmail.com
+              </p>
+              <p>
+                <i class="fas fa-map-marker-alt"></i> Sylhet, Bangladesh
+              </p>
             </div>
-            <div class="footer-bottom">
-                <p>© 2024 Mamool Malikee. All rights reserved.</p>
-                <div class="payment-methods">
-                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">bKash</span>
-                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">Nagad</span>
-                    <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">SSLCommerz</span>
-                </div>
-            </div>
+          </div>
+          <div class="footer-column">
+            <h4>Shop</h4><ul>
+              <li>
+                <a href="shop.html">All Products</a>
+              </li>
+              <li>
+                <a href="shop.html">OUD Collection</a>
+              </li>
+              <li>
+                <a href="shop.html">Mamool Incense</a>
+              </li>
+              <li>
+                <a href="shop.html">Bakhoor</a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Support</h4><ul>
+              <li>
+                <a href="contact.html">Contact Us</a>
+              </li>
+              <li>
+                <a href="#">Shipping</a>
+              </li>
+              <li>
+                <a href="#">Returns</a>
+              </li>
+              <li>
+                <a href="#">FAQ</a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h4>Company</h4><ul>
+              <li>
+                <a href="about.html">Our Story</a>
+              </li>
+              <li>
+                <a href="#">Craftsmanship</a>
+              </li>
+              <li>
+                <a href="#">Blog</a>
+              </li>
+            </ul>
+          </div>
         </div>
+        <div class="footer-bottom">
+          <p>© 2024 Mamool Malikee. All rights reserved.</p>
+          <div class="payment-methods">
+            <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">bKash</span>
+            <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">Nagad</span>
+            <span style="color: var(--gold-primary); font-size: 0.8rem; font-weight: 600;">SSLCommerz</span>
+          </div>
+        </div>
+      </div>
     </footer>
-    <script src="js/main.js"></script>
-</body>
+    <script src="{% static '/js/main.js' %}"></script>
+    <script>
+      const sizeButtons = document.querySelectorAll('.size-option')
+      const currentPrice = document.getElementById('currentPrice')
+      const originalPrice = document.getElementById('originalPrice')
+      
+      sizeButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          // Remove active class from all buttons
+          sizeButtons.forEach((btn) => {
+            btn.classList.remove('active')
+          })
+      
+          // Make clicked button active
+          this.classList.add('active')
+      
+          // Get price from clicked button
+          const price = this.dataset.price
+          const original = this.dataset.originalPrice
+      
+          // Update current price
+          currentPrice.textContent = '৳' + price
+      
+          // Update original price
+          if (original) {
+            originalPrice.textContent = '৳' + original
+            originalPrice.style.display = ''
+          } else {
+            originalPrice.textContent = ''
+            originalPrice.style.display = 'none'
+          }
+        })
+      })
+    </script>
+  </body>
 </html>

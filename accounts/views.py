@@ -135,12 +135,14 @@ class LoginAPIView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
 
+        login(request, user)
+
         return Response(
             {
-                "message": "Login successful.",
-                "first_name": user.first_name,
-                "last_name": user.last_name,
-                "email": user.email,
-            },
-            status=status.HTTP_200_OK
-        )
+            "message": "Login successful.",
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email": user.email,
+        },
+        status=status.HTTP_200_OK
+)
