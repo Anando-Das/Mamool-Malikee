@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from orders.models import Order, OrderItem
+from django.db import transaction
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.filter(is_active=True)
@@ -43,6 +45,7 @@ def build_filter_url(request, **new_params):
     return "/shop/"
 
 def product_page(request):
+    total_products = Product.objects.filter(is_active=True).count()
     category = request.GET.get("category")
     fragrance = request.GET.get("fragrance")
     min_price = request.GET.get("min_price")
@@ -94,6 +97,8 @@ def product_page(request):
 
     return render(request, "product.html", {
         "products": products,
+        
+        "total_products": total_products,
 
         "oud_url": build_filter_url(request, category="oud"),
         "mamool_url": build_filter_url(request, category="mamool"),
@@ -228,3 +233,79 @@ def cart_page(request):
     return render(request, "cart.html", {
         "shipping_zones": shipping_zones,
     })
+
+
+@login_required(login_url='login')
+def checkout_page(request):
+    shipping_zones = ShippingZone.objects.filter(
+        is_active=True
+    )
+
+    return render(request, "checkout.html", {
+        "shipping_zones": shipping_zones,
+    })
+
+
+@login_required(login_url='login')
+def order_confirmation_page(request, order_number):
+    order = get_object_or_404(
+        Order,
+        order_number=order_number,
+        user=request.user,
+    )
+
+    return render(request, "order_confirmation.html", {
+        "order": order,
+    })
+
+
+@login_required(login_url='login')
+def order_details_page(request, order_number):
+    order = get_object_or_404(
+        Order.objects.prefetch_related(
+            "items__product",
+            "items__variant",
+        ),
+        order_number=order_number,
+        user=request.user,
+    )
+
+    return render(request, "order_details.html", {
+        "order": order,
+    })
+
+@login_required(login_url='login')
+def my_orders_page(request):
+    orders = Order.objects.filter(user=request.user).order_by("-created_at").prefetch_related("items")
+    return render(request, "my_orders.html", {
+        "orders": orders,
+    })
+
+@login_required(login_url='login')
+def cancel_order(request, order_number):
+    if request.method != "POST":
+        from django.http import HttpResponseNotAllowed
+        return HttpResponseNotAllowed(["POST"])
+    
+    order = get_object_or_404(
+        Order,
+        order_number=order_number,
+        user=request.user,
+    )
+    
+    if order.status not in ["pending", "confirmed", "processing"]:
+        # Rather than returning a JSON response, let's redirect with an error message since this is a traditional Django app flow
+        from django.contrib import messages
+        from django.shortcuts import redirect
+        messages.error(request, f"Order {order.order_number} cannot be cancelled as it is already {order.status}.")
+        return redirect("my_orders")
+    
+    with transaction.atomic():
+        order.status = "cancelled"
+        order.save()
+        
+    from django.contrib import messages
+    from django.shortcuts import redirect
+    messages.success(request, f"Order {order.order_number} has been cancelled.")
+    
+    return redirect("my_orders")

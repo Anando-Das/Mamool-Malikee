@@ -1,0 +1,940 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Order Details | Mamool Malikee</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static '/css/style.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static '/css/responsive.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+
+    <style>
+
+        .order-details-page {
+            padding: 6rem 0;
+        }
+
+
+        .order-details-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--gold-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+
+        .order-card {
+            background: var(--black-light);
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+
+        .order-card h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold-primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.5rem;
+        }
+
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+
+        .detail-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+
+        .detail-label {
+            color: var(--gray-light);
+            font-size: 0.95rem;
+        }
+
+
+        .detail-value {
+            color: var(--cream);
+            font-weight: 500;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(201, 162, 39, 0.1);
+            color: var(--gold-primary);
+            border: 1px solid rgba(201, 162, 39, 0.3);
+        }
+
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+
+        .product-item {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+
+        .product-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid rgba(201, 162, 39, 0.2);
+            flex-shrink: 0;
+        }
+
+
+        .product-info {
+            flex-grow: 1;
+        }
+
+
+        .product-title {
+            color: var(--cream);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+
+        .product-meta {
+            color: var(--gray-light);
+            font-size: 0.85rem;
+        }
+
+
+        .product-price-qty {
+            text-align: right;
+        }
+
+
+        .product-total {
+            color: var(--gold-primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 0.3rem;
+        }
+
+
+        .grid-2-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            color: var(--gray-light);
+        }
+
+
+        .summary-row.discount {
+            color: #ff6b6b;
+        }
+
+
+        .summary-row.total {
+            color: var(--gold-primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-top: 1px solid rgba(201, 162, 39, 0.3);
+            padding-top: 1rem;
+            margin-top: 0.5rem;
+        }
+
+
+        .order-note {
+            color: var(--cream);
+            line-height: 1.7;
+            white-space: pre-wrap;
+        }
+
+
+        .empty-items {
+            color: var(--gray-light);
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+
+        .page-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+
+        @media (max-width: 768px) {
+
+            .grid-2-col {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+
+            .product-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+
+            .product-price-qty {
+                text-align: center;
+            }
+
+
+            .detail-row {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+
+
+            .detail-value {
+                text-align: left;
+                max-width: 100%;
+            }
+
+
+            .page-actions {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header
+        class="header"
+        id="header"
+    >
+
+        <div class="header-inner">
+
+
+            <a
+                href="{% url 'home' %}"
+                class="logo"
+            >
+
+                <img
+                    src="{% static '/images/logo.png' %}"
+                    alt="Mamool Malikee"
+                >
+
+            </a>
+
+
+            <nav class="nav-desktop">
+
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+
+                <a href="{% url 'shop' %}">
+                    Shop
+                </a>
+
+                <a href="about.html">
+                    Our Story
+                </a>
+
+                <a href="contact.html">
+                    Contact</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'my_orders' %}">My Orders</a>
+                {% endif %}
+
+                
+
+            </nav>
+
+
+            <div class="header-actions">
+
+                <a href="#">
+                    <i class="fas fa-search"></i>
+                </a>
+                {% if user.is_authenticated %}
+                <div class="user-profile-nav" id="desktopUserNav">
+                    <div class="user-dropdown" id="desktopUserMenu">
+                        <span class="greeting">{{ user.first_name }} {{ user.last_name }} <i class="fas fa-caret-down"
+                                style="font-size: 0.8em; margin-left: 4px;"></i></span>
+                        <div class="dropdown-content">
+                            <span class="dropdown-header"
+                                style="display:block; padding: 0.5rem 1.5rem; font-size: 0.85rem; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.25rem;">{{ user.first_name }} {{ user.last_name }}</span>
+
+                            {% url "logout" as url %}
+                            <a href="{% url "logout" %}">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" aria-label="Account"><i class="far fa-user"></i></a>
+                {% endif %}
+                <a href="{% url 'cart' %}">
+
+                    <i class="fas fa-shopping-bag"></i>
+
+                    <span class="cart-count">
+                        0
+                    </span>
+
+                </a>
+
+
+                <div
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MOBILE MENU ================= -->
+
+    <div
+        class="overlay"
+        id="overlay"
+    ></div>
+
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu"
+    >
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        <a href="{% url 'shop' %}">
+            Shop
+        </a>
+
+        <a href="about.html">
+            Our Story
+        </a>
+
+        <a href="contact.html">
+            Contact</a>
+        
+        {% if user.is_authenticated %}
+        <a href="{% url 'my_orders' %}">My Orders</a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <div class="mobile-user-section">
+            <div class="mobile-user-menu">
+                <span class="greeting">{{ user.first_name }} {{ user.last_name }}</span>
+                <a href="/logout/?next=/" class="logout-link">Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+        
+        <a href="{% url 'cart' %}">
+            Cart
+            (
+            <span class="cart-count">
+                0
+            </span>
+            )
+        </a>
+
+    </div>
+
+
+    <!-- ================= ORDER DETAILS ================= -->
+
+    <section class="order-details-page">
+
+        <div class="container">
+
+            <div class="order-details-wrapper">
+
+
+                <h1 class="page-title">
+                    Order Details
+                </h1>
+
+
+                <!-- ================= ORDER HEADER ================= -->
+
+                <div class="order-card">
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Order Number
+                        </span>
+
+                        <span
+                            class="detail-value"
+                            style="
+                                color: var(--gold-primary);
+                                font-weight: 600;
+                            "
+                        >
+                            {{ order.order_number }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Order Date
+                        </span>
+
+                        <span class="detail-value">
+                            {{ order.created_at|date:"F j, Y, g:i A" }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-row">
+
+                        <span class="detail-label">
+                            Order Status
+                        </span>
+
+                        <span class="detail-value">
+
+                            <span class="status-badge">
+                                {{ order.get_status_display }}
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ================= ORDERED PRODUCTS ================= -->
+
+                <div class="order-card">
+
+                    <h3>
+                        Items Ordered
+                    </h3>
+
+
+                    <div class="product-list">
+
+
+                        {% for item in order.items.all %}
+
+
+                        <div class="product-item">
+
+
+                            <img
+                                src="{% if item.product.image %}{{ item.product.image.url }}{% else %}{% static '/images/placeholder.jpg' %}{% endif %}"
+                                alt="{{ item.product_name }}"
+                                class="product-img"
+                            >
+
+
+                            <div class="product-info">
+
+                                <div class="product-title">
+                                    {{ item.product_name }}
+                                </div>
+
+
+                                <div class="product-meta">
+                                    Size: {{ item.size }}
+                                </div>
+
+                            </div>
+
+
+                            <div class="product-price-qty">
+
+
+                                <div class="product-meta">
+                                    ৳{{ item.unit_price }}
+                                    ×
+                                    {{ item.quantity }}
+                                </div>
+
+
+                                <div class="product-total">
+                                    ৳{{ item.item_total }}
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                        {% empty %}
+
+
+                        <div class="empty-items">
+                            No items found for this order.
+                        </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= CUSTOMER + DELIVERY ================= -->
+
+                <div class="grid-2-col">
+
+
+                    <!-- Customer Information -->
+
+                    <div class="order-card">
+
+                        <h3>
+                            Customer Information
+                        </h3>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                Full Name
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.full_name }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                Email
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.email }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                Phone
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.phone }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- Delivery Information -->
+
+                    <div class="order-card">
+
+                        <h3>
+                            Delivery Information
+                        </h3>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                Address
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.address }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                City
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.city }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                District
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.district }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                Post Code
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.postcode }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                Shipping Location
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.shipping_location }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ================= PAYMENT + SUMMARY ================= -->
+
+                <div class="grid-2-col">
+
+
+                    <!-- Payment Information -->
+
+                    <div class="order-card">
+
+                        <h3>
+                            Payment Information
+                        </h3>
+
+
+                        <div class="detail-row">
+
+                            <span class="detail-label">
+                                Payment Method
+                            </span>
+
+                            <span class="detail-value">
+                                {{ order.get_payment_method_display }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- Order Summary -->
+
+                    <div class="order-card">
+
+                        <h3>
+                            Order Summary
+                        </h3>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Subtotal
+                            </span>
+
+                            <span>
+                                ৳{{ order.subtotal }}
+                            </span>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Shipping
+                            </span>
+
+                            <span>
+                                ৳{{ order.shipping_cost }}
+                            </span>
+
+                        </div>
+
+
+                        {% if order.coupon_discount %}
+
+                        <div class="summary-row discount">
+
+                            <span>
+                                Coupon Discount
+                            </span>
+
+                            <span>
+                                -৳{{ order.coupon_discount }}
+                            </span>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <div class="summary-row total">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <span>
+                                ৳{{ order.total }}
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- ================= ORDER NOTE ================= -->
+
+                {% if order.order_note %}
+
+                <div class="order-card">
+
+                    <h3>
+                        Order Note
+                    </h3>
+
+
+                    <div class="order-note">
+                        {{ order.order_note }}
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- ================= ACTIONS ================= -->
+
+                <div class="page-actions">
+
+
+                    <a
+                        href="{% url 'shop' %}"
+                        class="btn btn-primary"
+                    >
+                        Continue Shopping
+                    </a>
+
+
+                    <a
+                        href="{% url 'my_orders' %}"
+                        class="btn btn-outline"
+                    >
+                        Back to Orders
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+
+        <div class="container">
+
+            <div
+                class="footer-bottom"
+                style="border-top:none;"
+            >
+
+                <p>
+                    © 2024 Mamool Malikee.
+                    All rights reserved.
+                </p>
+
+
+                <div class="payment-methods">
+
+                    <span
+                        style="
+                            color: var(--gold-primary);
+                            font-size: 0.8rem;
+                            font-weight: 600;
+                        "
+                    >
+                        bKash
+                    </span>
+
+
+                    <span
+                        style="
+                            color: var(--gold-primary);
+                            font-size: 0.8rem;
+                            font-weight: 600;
+                        "
+                    >
+                        Nagad
+                    </span>
+
+
+                    <span
+                        style="
+                            color: var(--gold-primary);
+                            font-size: 0.8rem;
+                            font-weight: 600;
+                        "
+                    >
+                        SSLCommerz
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <script src="{% static '/js/main.js' %}"></script>
+
+</body>
+</html>

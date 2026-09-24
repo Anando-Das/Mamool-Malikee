@@ -22,13 +22,44 @@
           <a href=" {% url 'home' %} ">Home</a>
           {% url 'shop' as url %}
           <a href="{% url 'shop' %}">Shop</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a>
+          {% if user.is_authenticated %}
+            <a href="{% url 'my_orders' %}">My Orders</a>
+          {% endif %}
         </nav>
         <div class="header-actions">
           <a href="#"><i class="fas fa-search"></i></a>
-          {% url "login" as url %}
-          <a href=" {% url "login" %} "><i class="far fa-user"></i></a>
-          {% url "cart" as cart %}
-          <a href="{% url "cart" %}"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
+
+          {% if user.is_authenticated %}
+            <div class="user-profile-nav" id="desktopUserNav">
+              <div class="user-dropdown" id="desktopUserMenu">
+                <span class="greeting">
+                  {% if user.first_name or user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                  {% else %}
+                    {{ user.username }}
+                  {% endif %}
+                  <i class="fas fa-caret-down" style="font-size: 0.8em; margin-left: 4px;"></i>
+                </span>
+
+                <div class="dropdown-content">
+                  <span class="dropdown-header" style="display:block; padding: 0.5rem 1.5rem; font-size: 0.85rem; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.25rem;">
+                    {% if user.first_name or user.last_name %}
+                      {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                      {{ user.username }}
+                    {% endif %}
+                  </span>
+
+                  <a href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            <a href="{% url 'login' %}" aria-label="Account"><i class="far fa-user"></i></a>
+          {% endif %}
+
+          {% url 'cart' as cart %}
+          <a href="{% url 'cart' %}"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
           <div class="mobile-menu-btn" id="mobileMenuBtn">
             <span></span><span></span><span></span>
           </div>
@@ -38,13 +69,24 @@
     <div class="overlay" id="overlay"></div>
     <div class="mobile-menu" id="mobileMenu">
       {% url 'home' as url %}
-      <a href="{% url "home" %}">Home</a>
+      <a href="{% url 'home' %}">Home</a>
       {% url 'shop' as url %}
-      <a href="{% url "shop" %}">Shop</a>
+      <a href="{% url 'shop' %}">Shop</a>
       <a href="about.html">Our Story</a>
       <a href="contact.html">Contact</a>
-      {% url "login" as url %}
-      <a href="{% url "login" %}">Login</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'my_orders' %}">My Orders</a>
+      {% endif %}
+      {% if user.is_authenticated %}
+        <div class="mobile-user-section">
+          <div class="mobile-user-menu">
+            <span class="greeting">{{ user.first_name }} {{ user.last_name }}</span>
+            <a href="/logout/?next=/" class="logout-link">Logout</a>
+          </div>
+        </div>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+      {% endif %}
       <a href="cart.html">Cart (2)</a>
     </div>
 
@@ -100,9 +142,9 @@
               <span>Total</span>
               <span id="cartTotal">৳0</span>
             </div>
-            <a href="checkout.html" class="btn btn-primary" style="width:100%; margin-top:1rem;">Proceed to Checkout</a>
-            {% url "shop" as url %}
-            <a href=" {% url "shop" %} " class="btn btn-outline" style="width:100%; margin-top:0.5rem;">Continue Shopping</a>
+            <a href="{% url 'checkout' %}" class="btn btn-primary" style="width:100%; margin-top:1rem;">Proceed to Checkout</a>
+            {% url 'shop' as url %}
+            <a href=" {% url 'shop' %} " class="btn btn-outline" style="width:100%; margin-top:0.5rem;">Continue Shopping</a>
           </div>
         </div>
       </div>

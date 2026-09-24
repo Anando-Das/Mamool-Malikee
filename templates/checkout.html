@@ -1,135 +1,242 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Checkout | Mamool Malikee</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  </head>
+  <body>
     <header class="header" id="header">
-        <div class="header-inner">
-            <a href="index.html" class="logo"><img src="images/logo.png" alt="Mamool Malikee"></a>
-            <nav class="nav-desktop">
-                <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a>
-            </nav>
-            <div class="header-actions">
-                <a href="login.html"><i class="far fa-user"></i></a>
-                <a href="cart.html"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
+      <div class="header-inner">
+        <a href="{% url 'home' %}" class="logo"><img src="{% static 'images/logo.png' %}" alt="Mamool Malikee" /></a>
+
+        <nav class="nav-desktop">
+          <a href="{% url 'home' %}">Home</a>
+          <a href="{% url 'shop' %}">Shop</a>
+          {% comment %} <a href="{% url 'about' %}">Our Story</a> {% endcomment %}
+          {% comment %} <a href="{% url 'contact' %}">Contact</a> {% endcomment %}
+          {% if user.is_authenticated %}
+            <a href="{% url 'my_orders' %}">My Orders</a>
+          {% endif %}
+        </nav>
+
+        <div class="header-actions">
+          {% if user.is_authenticated %}
+            <div class="user-profile-nav" id="desktopUserNav">
+              <div class="user-dropdown" id="desktopUserMenu">
+                <span class="greeting">
+                  {% if user.first_name or user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                  {% else %}
+                    {{ user.username }}
+                  {% endif %}
+                  <i class="fas fa-caret-down" style="font-size: 0.8em; margin-left: 4px;"></i>
+                </span>
+
+                <div class="dropdown-content">
+                  <span class="dropdown-header" style="display:block; padding: 0.5rem 1.5rem; font-size: 0.85rem; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.25rem;">
+                    {% if user.first_name or user.last_name %}
+                      {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                      {{ user.username }}
+                    {% endif %}
+                  </span>
+
+                  <a href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
             </div>
+          {% else %}
+            <a href="{% url 'login' %}" aria-label="Login"><i class="far fa-user"></i></a>
+          {% endif %}
+
+          <a href="{% url 'cart' %}" aria-label="Shopping cart">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-count">0</span>
+          </a>
         </div>
+      </div>
     </header>
 
     <section class="checkout-page">
-        <div class="container">
-            <h2 style="margin-bottom:2rem; font-size:2rem;">Secure Checkout</h2>
-            <div class="checkout-grid">
-                <div class="checkout-left">
-                    <div class="checkout-section">
-                        <h3>Contact Information</h3>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" placeholder="your@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label>Phone Number</label>
-                            <input type="tel" placeholder="01XXXXXXXXX">
-                        </div>
-                    </div>
-                    <div class="checkout-section">
-                        <h3>Shipping Address</h3>
-                        <div class="form-row">
-                            <div class="form-group"><label>First Name</label><input type="text"></div>
-                            <div class="form-group"><label>Last Name</label><input type="text"></div>
-                        </div>
-                        <div class="form-group"><label>Address</label><input type="text" placeholder="Street address"></div>
-                        <div class="form-group"><label>Apartment, suite, etc. (optional)</label><input type="text"></div>
-                        <div class="form-row">
-                            <div class="form-group"><label>City</label><input type="text"></div>
-                            <div class="form-group"><label>Postal Code</label><input type="text"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>Division</label>
-                            <select>
-                                <option>Select Division</option>
-                                <option>Dhaka</option>
-                                <option>Chittagong</option>
-                                <option>Sylhet</option>
-                                <option>Rajshahi</option>
-                                <option>Khulna</option>
-                                <option>Barisal</option>
-                                <option>Rangpur</option>
-                                <option>Mymensingh</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="checkout-section">
-                        <h3>Payment Method</h3>
-                        <div class="payment-methods-checkout">
-                            <label class="payment-method selected">
-                                <input type="radio" name="payment" checked>
-                                <span><i class="fas fa-money-bill-wave" style="color:var(--gold-primary); margin-right:0.5rem;"></i> Cash on Delivery</span>
-                            </label>
-                            <label class="payment-method">
-                                <input type="radio" name="payment">
-                                <span><i class="fas fa-mobile-alt" style="color:var(--gold-primary); margin-right:0.5rem;"></i> bKash</span>
-                            </label>
-                            <label class="payment-method">
-                                <input type="radio" name="payment">
-                                <span><i class="fas fa-mobile-alt" style="color:var(--gold-primary); margin-right:0.5rem;"></i> Nagad</span>
-                            </label>
-                            <label class="payment-method">
-                                <input type="radio" name="payment">
-                                <span><i class="fas fa-credit-card" style="color:var(--gold-primary); margin-right:0.5rem;"></i> SSLCommerz (Card/Bank)</span>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="checkout-section">
-                        <h3>Order Notes (Optional)</h3>
-                        <div class="form-group">
-                            <textarea placeholder="Special instructions for delivery..."></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="checkout-right">
-                    <div class="cart-summary">
-                        <h3>Order Summary</h3>
-                        <div style="padding:1rem 0; border-bottom:1px solid rgba(255,255,255,0.05); margin-bottom:1rem;">
-                            <div style="display:flex; gap:1rem; margin-bottom:1rem;">
-                                <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?w=100&q=80" style="width:60px; height:60px; object-fit:cover;">
-                                <div><p style="font-size:0.85rem; color:var(--cream);">OUD Malikee 6ml</p><p style="font-size:0.8rem;">Qty: 1</p></div>
-                                <span style="margin-left:auto; color:var(--gold-primary);">৳4,500</span>
-                            </div>
-                            <div style="display:flex; gap:1rem;">
-                                <img src="https://images.unsplash.com/photo-1547887538-047f814bfb64?w=100&q=80" style="width:60px; height:60px; object-fit:cover;">
-                                <div><p style="font-size:0.85rem; color:var(--cream);">Mamool Premium</p><p style="font-size:0.8rem;">Qty: 2</p></div>
-                                <span style="margin-left:auto; color:var(--gold-primary);">৳1,198</span>
-                            </div>
-                        </div>
-                        <div class="summary-row"><span>Subtotal</span><span>৳5,698</span></div>
-                        <div class="summary-row"><span>Shipping</span><span>৳120</span></div>
-                        <div class="summary-row total"><span>Total</span><span>৳5,818</span></div>
-                        <button class="btn btn-primary" style="width:100%; margin-top:1rem;">Complete Order</button>
-                        <p style="font-size:0.75rem; text-align:center; margin-top:1rem; color:var(--gray-dark);">
-                            <i class="fas fa-lock"></i> Your payment information is secure
-                        </p>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <h2 style="margin-bottom:2rem; font-size:2rem;">Secure Checkout</h2>
+
+        <div id="checkoutEmptyState" style="display:none;">
+          <p>Your cart is empty. Please add products before checking out.</p>
+          <a href="{% url 'shop' %}" class="btn btn-primary">Continue Shopping</a>
         </div>
+
+        <div id="checkoutFormWrapper">
+          <form id="checkoutForm" method="post">
+            {% csrf_token %}
+
+            <div class="checkout-grid">
+              <div class="checkout-left">
+                <div class="checkout-section">
+                  <h3>Contact Information</h3>
+
+                  <div class="form-group">
+                    <label for="checkoutEmail">Email Address</label>
+                    <input type="email" id="checkoutEmail" name="email" placeholder="your@email.com" autocomplete="email" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="checkoutPhone">Phone Number</label>
+                    <input type="tel" id="checkoutPhone" name="phone" placeholder="01XXXXXXXXX" autocomplete="tel" required />
+                  </div>
+                </div>
+
+                <div class="checkout-section">
+                  <h3>Shipping Address</h3>
+
+                  <div class="form-group">
+                    <label for="checkoutFullName">Full Name</label>
+                    <input type="text" id="checkoutFullName" name="full_name" autocomplete="name" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="checkoutAddress">Address</label>
+                    <input type="text" id="checkoutAddress" name="address" placeholder="Street address" autocomplete="street-address" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="checkoutApartment">Apartment, suite, etc. (optional)</label>
+                    <input type="text" id="checkoutApartment" name="apartment" autocomplete="address-line2" />
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="checkoutCity">City</label>
+                      <input type="text" id="checkoutCity" name="city" autocomplete="address-level2" required />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="checkoutPostcode">Postal Code</label>
+                      <input type="text" id="checkoutPostcode" name="postcode" autocomplete="postal-code" required />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="checkoutDistrict">District</label>
+                    <input type="text" id="checkoutDistrict" name="district" placeholder="e.g. Sylhet" required />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="checkoutShippingZone">Shipping Area</label>
+                    <select id="checkoutShippingZone" name="shipping_zone" required>
+                      <option value="">Select shipping area</option>
+                      {% for zone in shipping_zones %}
+                        <option value="{{ zone.code }}" data-charge="{{ zone.charge }}">{{ zone.get_code_display }} — ৳{{ zone.charge }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+
+                  <div class="form-group save-address-group">
+                    <label><input type="checkbox" id="saveAddress" name="save_address" />Save this address for next time</label>
+                  </div>
+                </div>
+
+                <div class="checkout-section">
+                  <h3>Payment Method</h3>
+
+                  <div class="payment-methods-checkout">
+                    <label class="payment-method selected">
+                      <input type="radio" name="payment" value="cod" checked />
+                      <span>
+                        <i class="fas fa-money-bill-wave" style="color:var(--gold-primary); margin-right:0.5rem;"></i>
+                        Cash on Delivery
+                      </span>
+                    </label>
+
+                    <label class="payment-method">
+                      <input type="radio" name="payment" value="bkash" />
+                      <span>
+                        <i class="fas fa-mobile-alt" style="color:var(--gold-primary); margin-right:0.5rem;"></i>
+                        bKash
+                      </span>
+                    </label>
+
+                    <label class="payment-method">
+                      <input type="radio" name="payment" value="nagad" />
+                      <span>
+                        <i class="fas fa-mobile-alt" style="color:var(--gold-primary); margin-right:0.5rem;"></i>
+                        Nagad
+                      </span>
+                    </label>
+
+                    <label class="payment-method">
+                      <input type="radio" name="payment" value="sslcommerz" />
+                      <span>
+                        <i class="fas fa-credit-card" style="color:var(--gold-primary); margin-right:0.5rem;"></i>
+                        SSLCommerz (Card/Bank)
+                      </span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="checkout-section">
+                  <h3>Order Notes (Optional)</h3>
+                  <div class="form-group">
+                    <textarea id="checkoutOrderNote" name="order_note" placeholder="Special instructions for delivery..."></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="checkout-right">
+                <div class="cart-summary">
+                  <h3>Order Summary</h3>
+
+                  <div id="checkoutItemsList" style="padding:1rem 0; border-bottom:1px solid rgba(255,255,255,0.05); margin-bottom:1rem;"></div>
+
+                  <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span id="checkoutSubtotal">৳0</span>
+                  </div>
+
+                  <div class="summary-row">
+                    <span>Shipping</span>
+                    <span id="checkoutShipping">৳0</span>
+                  </div>
+
+                  <div class="summary-row" id="checkoutDiscountRow" style="display:none;">
+                    <span>Discount</span>
+                    <span id="checkoutDiscount">−৳0</span>
+                  </div>
+
+                  <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="checkoutTotal">৳0</span>
+                  </div>
+
+                  <button type="button" id="placeOrderBtn" class="btn btn-primary" data-order-url="{% url 'create-order' %}" style="width:100%; margin-top:1rem;">Complete Order</button>
+
+                  <p style="font-size:0.75rem; text-align:center; margin-top:1rem; color:var(--gray-dark);">
+                    <i class="fas fa-lock"></i>
+                    Your payment information is secure
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </section>
 
     <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom" style="border-top:none;">
-                <p>© 2024 Mamool Malikee. All rights reserved.</p>
-            </div>
+      <div class="container">
+        <div class="footer-bottom" style="border-top:none;">
+          <p>© 2024 Mamool Malikee. All rights reserved.</p>
         </div>
+      </div>
     </footer>
-    <script src="js/main.js"></script>
-</body>
+
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
 </html>

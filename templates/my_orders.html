@@ -1,0 +1,270 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Orders | Mamool Malikee</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static '/css/style.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{% static '/css/responsive.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header
+        class="header"
+        id="header"
+    >
+        <div class="header-inner">
+            <a
+                href="{% url 'home' %}"
+                class="logo"
+            >
+                <img
+                    src="{% static '/images/logo.png' %}"
+                    alt="Mamool Malikee"
+                >
+            </a>
+
+            <nav class="nav-desktop">
+                <a href="{% url 'home' %}">
+                    Home
+                </a>
+                <a href="{% url 'shop' %}">
+                    Shop
+                </a>
+                <a href="/about.html">
+                    Our Story
+                </a>
+                <a href="/contact.html">
+                    Contact
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'my_orders' %}">My Orders</a>
+                {% endif %}
+
+                
+            </nav>
+
+            <div class="header-actions">
+                <a href="#">
+                    <i class="fas fa-search"></i>
+                </a>
+                {% if user.is_authenticated %}
+                <div class="user-profile-nav" id="desktopUserNav">
+                    <div class="user-dropdown" id="desktopUserMenu">
+                        <span class="greeting">{{ user.first_name }} {{ user.last_name }} <i class="fas fa-caret-down"
+                                style="font-size: 0.8em; margin-left: 4px;"></i></span>
+                        <div class="dropdown-content">
+                            <span class="dropdown-header"
+                                style="display:block; padding: 0.5rem 1.5rem; font-size: 0.85rem; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.25rem;">{{ user.first_name }} {{ user.last_name }}</span>
+
+                            {% url "logout" as url %}
+                            <a href="{% url "logout" %}">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" aria-label="Account"><i class="far fa-user"></i></a>
+                {% endif %}
+                <a href="{% url 'cart' %}">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">
+                        0
+                    </span>
+                </a>
+
+                <div
+                    class="mobile-menu-btn"
+                    id="mobileMenuBtn"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MOBILE MENU ================= -->
+
+    <div
+        class="overlay"
+        id="overlay"
+    ></div>
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu"
+    >
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+        <a href="{% url 'shop' %}">
+            Shop
+        </a>
+        <a href="/about.html">
+            Our Story
+        </a>
+        <a href="/contact.html">
+            Contact
+        </a>
+        
+        {% if user.is_authenticated %}
+        <a href="{% url 'my_orders' %}">My Orders</a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <div class="mobile-user-section">
+            <div class="mobile-user-menu">
+                <span class="greeting">{{ user.first_name }} {{ user.last_name }}</span>
+                <a href="/logout/?next=/" class="logout-link">Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+        
+        <a href="{% url 'cart' %}">
+            Cart
+            (
+            <span class="cart-count">
+                0
+            </span>
+            )
+        </a>
+    </div>
+
+    <!-- ================= MY ORDERS ================= -->
+
+    <section class="my-orders-page">
+        <div class="container">
+            <div class="my-orders-wrapper">
+                <h1 class="page-title">
+                    My Orders
+                </h1>
+
+                {% if messages %}
+                <div class="messages-container">
+                    {% for message in messages %}
+                        <div class="message-alert {% if message.tags == 'success' %}success{% else %}error{% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if orders %}
+                    {% for order in orders %}
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-header-info">
+                                <h3>#{{ order.order_number }}</h3>
+                                <div class="order-date">{{ order.created_at|date:"F j, Y" }}</div>
+                            </div>
+                            <div class="status-badge">
+                                {{ order.get_status_display }}
+                            </div>
+                        </div>
+
+                        <div class="order-items-summary">
+                            {% for item in order.items.all %}
+                                <div>{{ item.product_name }} — {{ item.size }} × {{ item.quantity }}</div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="order-footer">
+                            <div class="order-total">
+                                Total: ৳{{ order.total }}
+                            </div>
+                            <div class="order-actions">
+                                <a href="{% url 'order_details' order.order_number %}" class="btn btn-outline">
+                                    View Order
+                                </a>
+                                {% if order.status == 'pending' or order.status == 'confirmed' or order.status == 'processing' %}
+                                <form action="{% url 'cancel_order' order.order_number %}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to cancel this order?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">
+                                        Cancel Order
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <p>You haven't placed any orders yet.</p>
+                        <a href="{% url 'shop' %}" class="btn btn-primary">Start Shopping</a>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom footer-bottom-no-border">
+                <p>
+                    © 2024 Mamool Malikee.
+                    All rights reserved.
+                </p>
+
+                <div class="payment-methods">
+                    <span>
+                        bKash
+                    </span>
+                    <span>
+                        Nagad
+                    </span>
+                    <span>
+                        SSLCommerz
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static '/js/main.js' %}"></script>
+
+</body>
+</html>

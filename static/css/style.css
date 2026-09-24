@@ -2376,3 +2376,166 @@ img {
   display: inline-block;
   margin-top: -0.5rem;
 }
+
+
+/* ============================================
+   MY ORDERS PAGE
+   ============================================ */
+.my-orders-page {
+    padding: 6rem 0;
+}
+
+.my-orders-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--gold-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.order-card {
+    background: var(--black-light);
+    border: 1px solid rgba(201, 162, 39, 0.2);
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.order-header-info h3 {
+    font-family: var(--font-heading);
+    color: var(--gold-primary);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.order-date {
+    color: var(--gray-light);
+    font-size: 0.95rem;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background: rgba(201, 162, 39, 0.1);
+    color: var(--gold-primary);
+    border: 1px solid rgba(201, 162, 39, 0.3);
+}
+
+.order-items-summary {
+    color: var(--cream);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1.5rem;
+}
+
+.order-total {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--gold-primary);
+}
+
+.order-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.order-actions .btn {
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--black-light);
+    border: 1px solid rgba(201, 162, 39, 0.2);
+    border-radius: 8px;
+}
+
+.empty-state p {
+    color: var(--gray);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+/* Messages */
+.messages-container {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.message-alert {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.message-alert.success {
+    background: rgba(46, 204, 113, 0.1);
+    border: 1px solid rgba(46, 204, 113, 0.3);
+    color: #2ecc71;
+}
+
+.message-alert.error {
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    color: #e74c3c;
+}
+
+/* Footer overrides / classes */
+.footer-bottom-no-border {
+    border-top: none;
+}
+
+.payment-methods span {
+    color: var(--gold-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.payment-methods .payment-label {
+    color: var(--gray);
+    font-size: 0.75rem;
+    margin-right: 0.5rem;
+    font-weight: normal;
+}
+
+
+.save-address-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.save-address-group input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    padding: 0;
+    flex: 0 0 auto;
+}

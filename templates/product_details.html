@@ -23,13 +23,32 @@
           <a href="{% url "shop" %}">Shop</a>
           <a href="about.html">Our Story</a>
           <a href="contact.html">Contact</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'my_orders' %}">My Orders</a>
+                {% endif %}
+
         </nav>
         <div class="header-actions">
           <a href="#"><i class="fas fa-search"></i></a>
-          {% url 'login' as url %}
-          <a href="{% url 'login' %}"><i class="far fa-user"></i></a>
-          {% url 'cart' as url %}
-          <a href="{% url 'cart' %}"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
+
+                {% if user.is_authenticated %}
+                <div class="user-profile-nav" id="desktopUserNav">
+                    <div class="user-dropdown" id="desktopUserMenu">
+                        <span class="greeting">{{ user.first_name }} {{ user.last_name }} <i class="fas fa-caret-down"
+                                style="font-size: 0.8em; margin-left: 4px;"></i></span>
+                        <div class="dropdown-content">
+                            <span class="dropdown-header"
+                                style="display:block; padding: 0.5rem 1.5rem; font-size: 0.85rem; color: var(--gray); border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 0.25rem;">{{ user.first_name }} {{ user.last_name }}</span>
+
+                            {% url "logout" as url %}
+                            <a href="{% url "logout" %}">Logout</a>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" aria-label="Account"><i class="far fa-user"></i></a>
+                {% endif %}
+                <a href="{% url 'cart' %}"><i class="fas fa-shopping-bag"></i><span class="cart-count">2</span></a>
           <div class="mobile-menu-btn" id="mobileMenuBtn">
             <span></span><span></span><span></span>
           </div>
@@ -39,7 +58,21 @@
     <div class="overlay" id="overlay"></div>
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="about.html">Our Story</a>
-      <a href="contact.html">Contact</a><a href="login.html">Login</a><a href="cart.html">Cart (2)</a>
+      <a href="contact.html">Contact</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'my_orders' %}">My Orders</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <div class="mobile-user-section">
+            <div class="mobile-user-menu">
+                <span class="greeting">{{ user.first_name }} {{ user.last_name }}</span>
+                <a href="/logout/?next=/" class="logout-link">Logout</a>
+            </div>
+        </div>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+        <a href="cart.html">Cart (2)</a>
     </div>
 
     <section class="product-detail">
